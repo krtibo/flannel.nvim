@@ -8,9 +8,7 @@ function M.get()
 		lCursor = { fg = C.base, bg = C.text }, -- the character under the cursor when |language-mapping| is used (see 'guicursor')
 		CursorIM = { fg = C.base, bg = C.text }, -- like Cursor, but used when in IME mode |CursorIM|
 		CursorColumn = { bg = C.mantle }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
-		CursorLine = {
-			bg = U.vary_color({ latte = U.lighten(C.mantle, 0.70, C.base) }, U.darken(C.surface0, 0.64, C.base)),
-		}, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if forecrust (ctermfg OR guifg) is not set.
+		CursorLine = { bg = "#202130" }, -- Screen-line at the cursor, when 'cursorline' is set.  Low-priority if forecrust (ctermfg OR guifg) is not set.
 		Directory = { fg = C.blue }, -- directory names (and other special names in listings)
 		EndOfBuffer = { fg = O.show_end_of_buffer and C.surface1 or C.base }, -- filler lines (~) after the end of the buffer.  By default, this is highlighted like |hl-NonText|.
 		ErrorMsg = { fg = C.red, style = { "bold", "italic" } }, -- error messages on the command line
@@ -70,6 +68,8 @@ function M.get()
 		WildMenu = { bg = C.overlay0 }, -- current match in 'wildmenu' completion
 		WinBar = { fg = C.rosewater },
 		WinSeparator = { fg = O.transparent_background and C.surface1 or C.crust },
+		IndentBlanklineContextChar = { fg = C.overlay0, bg = 'NONE' },
+		IndentBlanklineChar = { fg = C.surface0, bg = 'NONE' },
 	}
 end
 
