@@ -1,0 +1,248 @@
+---@class Flannel
+---@field options FlannelOptions
+---@field setup fun(opts: FlannelOptions?)
+
+---@alias FlnFlavor "muted" | "vibrant"
+---@alias FlnColor "rosewater" | "flamingo" | "pink" | "mauve" | "red" | "maroon" | "peach" | "yellow" | "green" | "teal" | "sky" | "sapphire" | "blue" | "lavender" | "text" | "subtext1" | "subtext0" | "overlay2" | "overlay1" | "overlay0" | "surface2" | "surface1" | "surface0" | "base" | "mantle" | "crust"
+---@class FlnFlavors<T>: {all: T, muted: T, vibrant: T }
+---@class FlnColors<T>: {rosewater: T, flamingo: T, pink: T, mauve: T, red: T, maroon: T, peach: T, yellow: T, green: T, teal: T, sky: T, sapphire: T, blue: T, lavender: T, text: T, subtext1: T, subtext0: T, overlay2: T, overlay1: T, overlay0: T, surface2: T, surface1: T, surface0: T, base: T, mantle: T, crust: T, none: T }
+
+---@class FlannelOptions
+-- Changes the flavor based on the background. See `:h background` for more info.
+---@field background FlnBackground?
+-- By default flannel writes the compiled results into the system's cache directory.
+-- You can change the cache dir by changing this value.
+---@field compile_path string?
+-- Whether to enable transparency.
+---@field transparent_background boolean?
+-- Toggle the `~` characters after the end of buffers.
+---@field show_end_of_buffer boolean?
+-- If true, sets terminal colors (e.g. `g:terminal_color_0`).
+---@field term_colors boolean?
+-- Workaround for kitty transparency issue: https://github.com/kovidgoyal/kitty/issues/2917
+---@field kitty boolean?
+-- Settings for dimming of inactive windows.
+---@field dim_inactive FlnDimInactive?
+-- Disables all italic styles.
+---@field no_italic boolean?
+-- Disables all bold styles.
+---@field no_bold boolean?
+-- Disables all underline styles.
+---@field no_underline boolean?
+-- Handles the style of general hl groups (see `:h highlight-groups`).
+---@field styles FlnStyles?
+-- Toggle integrations. Integrations allow Flannel to set the theme of various plugins.
+---@field integrations FlnIntegrations?
+-- Flannel colors can be overwritten here.
+---@field color_overrides FlnColors | FlnFlavors<FlnColors<string>> | nil
+-- Flannel highlights can be overwritten here.
+---@field highlight_overrides FlnHighlightOverrides?
+-- Global highlight overrides.
+---@field custom_highlights FlnHighlightOverrideFn | {[string]: FlnHighlight} | nil
+-- The default flavor to use on startup.
+---@field flavour FlnFlavor?
+
+---@class FlnBackground
+-- Flannel flavor to use when `:set background=dark` is set.
+---@field dark FlnFlavor?
+-- Flannel flavor to use when `:set background=light` is set.
+---@field light FlnFlavor?
+
+---@class FlnDimInactive
+-- Whether to dim inactive windows.
+---@field enabled boolean
+-- Whether to darken or lighten inactive windows.
+---@field shade "dark" | "light" | nil
+-- Percentage of the shade to apply to the inactive window
+---@field percentage number?
+
+---@class FlnStyles
+-- Change the style of comments.
+---@field comments FlnHighlightArgs[]?
+-- Change the style of conditionals.
+---@field conditionals FlnHighlightArgs[]?
+-- Change the style of loops.
+---@field loops FlnHighlightArgs[]?
+-- Change the style of functions.
+---@field functions FlnHighlightArgs[]?
+-- Change the style of keywords.
+---@field keywords FlnHighlightArgs[]?
+-- Change the style of strings.
+---@field strings FlnHighlightArgs[]?
+-- Change the style of variables.
+---@field variables FlnHighlightArgs[]?
+-- Change the style of numbers.
+---@field numbers FlnHighlightArgs[]?
+-- Change the style of booleans.
+---@field booleans FlnHighlightArgs[]?
+-- Change the style of properties.
+---@field properties FlnHighlightArgs[]?
+-- Change the style of types.
+---@field types FlnHighlightArgs[]?
+-- Change the style of operators.
+---@field operators FlnHighlightArgs[]?
+
+---@class FlnNativeLspStyles
+-- Change the style of LSP errors.
+---@field errors FlnHighlightArgs[]?
+-- Change the style of LSP hints.
+---@field hints FlnHighlightArgs[]?
+-- Change the style of LSP warnings.
+---@field warnings FlnHighlightArgs[]?
+-- Change the style of LSP information.
+---@field information FlnHighlightArgs[]?
+
+---@class FlnNativeLspInlayHints
+-- Toggle the background of inlay hints.
+---@field background boolean?
+
+---@class FlnIntegrations
+---@field aerial boolean?
+---@field alpha boolean?
+---@field barbar boolean?
+---@field barbecue FlnIntegrationBarbecue | boolean?
+---@field beacon boolean?
+---@field cmp boolean?
+-- `coc.nvim` links to `native_lsp` highlight groups, so you can use
+-- `native_lsp.virtual_text` and `native_lsp.underlines` to style diagnostics.
+---@field coc_nvim boolean?
+-- ```lua
+-- local sign = vim.fn.sign_define
+--
+-- sign("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = ""})
+-- sign("DapBreakpointCondition", { text = "●", texthl = "DapBreakpointCondition", linehl = "", numhl = ""})
+-- sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = ""})
+-- ```
+---@field dap boolean?
+---@field dap_ui boolean?
+---@field dashboard boolean?
+---@field dropbar FlnIntegrationDropbar | boolean?
+---@field fern boolean?
+-- Set `notification.window.winblend` to `0` in your `fidget` config:
+--
+-- ```lua
+-- require("fidget").setup {
+--   notification = {
+--     window = { winblend = 0 },
+--   }
+-- }
+-- ```
+---@field fidget boolean?
+---@field flash boolean?
+---@field gitgutter boolean?
+---@field gitsigns boolean?
+---@field harpoon boolean?
+---@field headlines boolean?
+---@field hop boolean?
+---@field illuminate boolean?
+---@field indent_blankline FlnIntegrationIndentBlankline | boolean?
+---@field leap boolean?
+---@field lightspeed boolean?
+-- For custom Lsp kind icon and colors, adjust your `lspsaga` config:
+--
+-- ```lua
+-- require("lspsaga").setup {
+--    ui = {
+--        kind = require("flannel.groups.integrations.lsp_saga").custom_kind(),
+--    },
+-- }
+-- ```
+---@field lsp_saga boolean?
+---@field lsp_trouble boolean?
+---@field markdown boolean?
+---@field mason boolean?
+---@field native_lsp FlnIntegrationNativeLsp | boolean?
+-- You **NEED** to enable highlight in your `nvim-navic` config or it won't work:
+--
+-- ```lua
+-- require("nvim-navic").setup {
+--		highlight = true
+-- }
+-- ```
+---@field navic FlnIntegrationNavic | boolean?
+---@field neogit boolean?
+---@field neotest boolean?
+---@field neotree boolean?
+---@field noice boolean?
+---@field notify boolean?
+---@field nvimtree boolean?
+---@field octo boolean?
+---@field overseer boolean?
+---@field pounce boolean?
+---@field rainbow_delimiters boolean?
+---@field sandwich boolean?
+---@field semantic_tokens boolean?
+---@field symbols_outline boolean?
+---@field telekasten boolean?
+---@field telescope FlnIntegrationTelescope | boolean?
+---@field treesitter boolean?
+---@field treesitter_context boolean?
+---@field ts_rainbow boolean?
+---@field ts_rainbow2 boolean?
+---@field vim_sneak boolean?
+---@field vimwiki boolean?
+---@field which_key boolean?
+---@field window_picker boolean?
+
+---@class FlnIntegrationBarbecue
+--  Whether to use the alternative background.
+---@field alt_background boolean?
+-- Whether the basename should be bold.
+---@field bold_basename boolean?
+-- Whether the context should be dimmed.
+---@field dim_context boolean?
+-- Whether the directory name should be dimmed.
+---@field dim_dirname boolean?
+
+---@class FlnIntegrationDropbar
+-- Whether to enable the dropbar integration.
+---@field enabled boolean
+-- Set to true to apply color to the text in dropbar, false to only apply it to the icons.
+---@field color_mode boolean?
+
+---@class FlnIntegrationIndentBlankline
+-- Whether to enable the integration.
+---@field enabled boolean
+-- Sets the color of the scope line
+---@field scope_color FlnColor?
+-- Enables char highlights per indent level.
+-- Follow the instructions on the plugins GitHub repo to set it up.
+---@field colored_indent_levels boolean?
+
+---@class FlnIntegrationMini
+-- Whether to enable the integration.
+---@field enabled boolean
+-- Sets the color of the scope line
+---@field indentscope_color FlnColor?
+
+---@class FlnIntegrationNativeLsp
+-- Whether to enable the Native LSP integration.
+---@field enabled boolean
+-- Styles to apply to virtual text.
+---@field virtual_text FlnNativeLspStyles?
+-- Styles to apply to underlines.
+---@field underlines FlnNativeLspStyles?
+-- Inlay hints options.
+---@field inlay_hints FlnNativeLspInlayHints?
+
+---@class FlnIntegrationNavic
+-- Whether to enable the navic integration.
+---@field enabled boolean
+-- Override the background color for navic.
+---@field custom_bg FlnColor | "NONE" | "lualine" | nil
+
+---@class FlnIntegrationTelescope
+-- Whether to enable the telescope integration
+---@field enabled boolean?
+-- The style of Telescope
+---@field style "classic" | "nvchad" | nil
+
+---@alias FlnHighlightArgs "bold" | "underline" | "undercurl" | "underdouble" | "underdotted" | "underdashed" | "strikethrough" | "reverse" | "inverse" | "italic" | "standout" | "altfont" | "nocombine" | "NONE"
+---@alias FlnHighlightOverrideFn fun(colors: FlnColors<string>): { [string]: FlnHighlight}
+---@alias FlnHighlightOverrides FlnFlavors<FlnHighlightOverrideFn>
+
+---@class FlnHighlight
+---@field fg string?
+---@field bg string?
+---@field style FlnHighlightArgs[]?
+---@field link string?
