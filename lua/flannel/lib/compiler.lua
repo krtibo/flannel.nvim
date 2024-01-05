@@ -31,7 +31,7 @@ if vim.g.colors_name then vim.cmd("hi clear") end
 vim.o.background = "%s"
 vim.g.colors_name = "flannel-%s"
 local h = vim.api.nvim_set_hl]],
-			flavour == "latte" and "light" or "dark",
+			"dark",
 			flavour
 		),
 	}
