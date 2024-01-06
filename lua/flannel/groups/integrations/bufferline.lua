@@ -15,7 +15,7 @@ function M.get(user_config)
 			or C.crust
 
 		local active_bg = transparent_background and "NONE" or C.base
-		local inactive_bg = transparent_background and "NONE" or C.mantle
+		local inactive_bg = transparent_background and "NONE" or "#151620"
 
 		local separator_fg = O.transparent_background and C.surface1 or C.crust
 
