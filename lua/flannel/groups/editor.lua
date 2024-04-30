@@ -39,7 +39,7 @@ function M.get()
 		FloatBorder = { fg = C.blue },
 		FloatTitle = { fg = C.subtext0 }, -- Title of floating windows
 		Pmenu = {
-			bg = U.darken(C.surface0, 0.8, C.crust),
+			bg = C.base,
 			fg = C.overlay2,
 		}, -- Popup menu: normal item.
 		PmenuSel = { bg = C.surface1, style = { "bold" } }, -- Popup menu: selected item.
