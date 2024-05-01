@@ -78,7 +78,7 @@ If you want to stay on nvim 0.7, either disable the integration or pin flannel t
 
 		-- Identifiers
 
-		["@variable"] = { fg = C.text, style = O.styles.variables or {} }, -- Any variable name that does not have another highlight.
+		["@variable"] = { fg = C.rosewater, style = O.styles.variables or {} }, -- Any variable name that does not have another highlight.
 		["@variable.builtin"] = { fg = C.red, style = O.styles.properties or {} }, -- Variable names that are defined by the languages, like this or self.
 
 		["@constant"] = { link = "Constant" }, -- For constants
