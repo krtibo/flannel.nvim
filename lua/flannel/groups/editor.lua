@@ -67,6 +67,7 @@ function M.get()
 		Whitespace = { fg = C.surface1 }, -- "nbsp", "space", "tab" and "trail" in 'listchars'
 		WildMenu = { bg = C.overlay0 }, -- current match in 'wildmenu' completion
 		WinBar = { fg = C.rosewater },
+		WinBarNc = { fg = C.subtext0, bg = C.base },
 		WinSeparator = { fg = O.transparent_background and C.surface1 or C.crust },
 		IndentBlanklineContextChar = { fg = C.overlay0, bg = 'NONE' },
 		IndentBlanklineChar = { fg = C.surface0, bg = 'NONE' },
