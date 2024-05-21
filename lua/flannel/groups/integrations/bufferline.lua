@@ -37,7 +37,7 @@ function M.get(user_config)
 			tab_separator_selected = { fg = separator_fg, bg = active_bg },
 
 			tab_close = { fg = C.red, bg = inactive_bg },
-			indicator_selected = { fg = C.peach, bg = active_bg, style = styles },
+			indicator_selected = { fg = C.blue, bg = active_bg, style = styles },
 			-- separators
 			separator = { fg = separator_fg, bg = inactive_bg },
 			separator_visible = { fg = separator_fg, bg = inactive_bg },
