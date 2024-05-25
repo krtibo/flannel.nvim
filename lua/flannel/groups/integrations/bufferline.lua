@@ -17,7 +17,7 @@ function M.get(user_config)
 		local active_bg = transparent_background and "NONE" or C.base
 		local inactive_bg = transparent_background and "NONE" or "#151620"
 
-		local separator_fg = O.transparent_background and C.surface1 or C.crust
+		local separator_fg = O.transparent_background and C.surface1 or C.blue
 
 		local styles = user_config.styles or { "bold", "italic" }
 
@@ -48,7 +48,7 @@ function M.get(user_config)
 			close_button_visible = { fg = C.surface1, bg = inactive_bg },
 			close_button_selected = { fg = C.red, bg = active_bg },
 			-- Empty fill
-			fill = { bg = bg_highlight },
+			fill = { bg = C.base },
 			-- Numbers
 			numbers = { fg = C.subtext0, bg = inactive_bg },
 			numbers_visible = { fg = C.subtext0, bg = inactive_bg },
