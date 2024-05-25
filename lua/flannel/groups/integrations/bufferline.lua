@@ -25,7 +25,7 @@ function M.get(user_config)
 			-- buffers
 			background = { bg = inactive_bg },
 			buffer_visible = { fg = C.surface1, bg = inactive_bg },
-			buffer_selected = { fg = C.text, bg = active_bg, style = styles }, -- current
+			buffer_selected = { fg = C.blue, bg = active_bg, style = styles }, -- current
 			-- Duplicate
 			duplicate_selected = { fg = C.text, bg = active_bg, style = styles },
 			duplicate_visible = { fg = C.surface1, bg = inactive_bg, style = styles },
